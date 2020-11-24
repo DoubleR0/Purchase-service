@@ -2,7 +2,7 @@ package purchase.service;
 
 public class Dataservice {
     private String id;
-    private String purchaseidid;
+    private String purchaseid;
     private String cartid;
     private String productid;
     private String paymentAccountid;
@@ -14,7 +14,7 @@ public class Dataservice {
             String paymentAccountid, String paymentLogid,
              String userProfileid, String resultid, String address) {
         this.id = id;
-        this.purchaseidid = purchaseidid;
+        this.purchaseid = purchaseid;
         this.cartid = cartid;
         this.productid = productid;
         this.paymentAccountid = paymentAccountid;
@@ -33,11 +33,11 @@ public class Dataservice {
     }
 
     public String getPurchaseidid() {
-        return purchaseidid;
+        return purchaseid;
     }
 
     public void setPurchaseidid(String purchaseidid) {
-        this.purchaseidid = purchaseidid;
+        this.purchaseid = purchaseidid;
     }
 
     public String getCartid() {
