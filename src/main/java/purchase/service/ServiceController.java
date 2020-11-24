@@ -33,61 +33,23 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class ServiceController {
-    List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("LIP001", "XOXO Lipstick", 1),
-            new Dataservice("BRO001", "NYX Brush On Palette", 1)));
+    // List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("LIP001", "XOXO Lipstick", 1),
+    //         new Dataservice("BRO001", "NYX Brush On Palette", 1)));
 
-    public void deleteData(String id) {
-        for (int i = 0; i < dataservice.size(); i++) {
-            if (dataservice.get(i).getId().equals(id)) {
-                dataservice.remove(i);
-                break;
-            }
-        }
-    }
+    // public void deleteData(String id) {
+    //     for (int i = 0; i < dataservice.size(); i++) {
+    //         if (dataservice.get(i).getId().equals(id)) {
+    //             dataservice.remove(i);
+    //             break;
+    //         }
+    //     }
+    // }
 
-    @RequestMapping(value = "/getAllData", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Dataservice> getAllDataservice(HttpServletResponse response) {
-        return dataservice;
-    }
-
-    @RequestMapping(value = "/getData{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Dataservice> getDataservice(HttpServletRequest request, @PathVariable String id) {
-        return dataservice;
-    }
-
-    @RequestMapping(value = "/Data/{id}", method = RequestMethod.DELETE)
-    public String deleteDataservice(@PathVariable String id) {
-        deleteData(id);
-        return "Delete0";
-    }
-
-    @GetMapping("/hello")
-    @ResponseBody
-    public void index(HttpServletResponse response) throws IOException {
-        final String uri = "http://localhost:8080/getAllData";
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        // JSONObject jsonObject = new JSONObject(result);
-
-        // System.out.println(jsonObject);
-        response.setContentType("application/json");
-        response.getWriter().print("{" + result + "," + result + "}");
-    }
-
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-            Model model) {
-        model.addAttribute("name", name);
-        // final String uri = "http://localhost:8080/getAllData";
-        // RestTemplate restTemplate = new RestTemplate();
-        // String result = restTemplate.getForObject(uri, String.class);
-
-        // System.out.println(result);
-        // return result;
-        return "greeting";
-    }
+    // @RequestMapping(value = "/Data/{id}", method = RequestMethod.DELETE)
+    // public String deleteDataservice(@PathVariable String id) {
+    //     deleteData(id);
+    //     return "Delete0";
+    // }
 
     // PurchaseService
     // send cost confirmed to Payment and waiting for response
