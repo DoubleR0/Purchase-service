@@ -134,13 +134,10 @@ public class ServiceController {
     @RequestMapping(value = "/log", method = RequestMethod.GET)
     @ResponseBody
     public void log(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        // empty
-
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(response);
+        response.getWriter().print(dataservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -149,14 +146,12 @@ public class ServiceController {
     // set method and parameter
     @RequestMapping(value = "/log/{purchaseid}", method = RequestMethod.GET)
     @ResponseBody
-    public void logOne(HttpServletResponse response) throws IOException {
-
-        // empty
+    public void logOne(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer purchaseid) throws IOException {
 
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(dataservice);
+        response.getWriter().print(dataservice.get(purchaseid));
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
