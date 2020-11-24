@@ -28,12 +28,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class ServiceController {
-    List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("1", "3", "1", "166929", "1000232", "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
+    List<Dataservice> dataPurchaseservice = new ArrayList<>(Arrays.asList(new Dataservice("1", "3", "1", "166929", "1000232", "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
 
     public void deleteData(String id) {
-    for (int i = 0; i < dataservice.size(); i++) {
-    if (dataservice.get(i).getPurchaseidid().equals(id)) {
-    dataservice.remove(i);
+    for (int i = 0; i < dataPurchaseservice.size(); i++) {
+    if (dataPurchaseservice.get(i).getPurchaseidid().equals(id)) {
+        dataPurchaseservice.remove(i);
     break;
     }
     }
@@ -54,7 +54,7 @@ public class ServiceController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         // set Entity for request sent
-        HttpEntity<String> entity = new HttpEntity<>(dataservice.toString(), headers);
+        HttpEntity<String> entity = new HttpEntity<>(dataPurchaseservice.toString(), headers);
         // get response request sent
         ResponseEntity<String> respon = restTemplate.postForEntity(url, entity, String.class);
 
@@ -135,13 +135,10 @@ public class ServiceController {
     @RequestMapping(value = "/log", method = RequestMethod.GET)
     @ResponseBody
     public void log(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        // empty
-
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(response);
+        response.getWriter().print(dataPurchaseservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -150,14 +147,12 @@ public class ServiceController {
     // set method and parameter
     @RequestMapping(value = "/log/{purchaseid}", method = RequestMethod.GET)
     @ResponseBody
-    public void logOne(HttpServletResponse response) throws IOException {
-
-        // empty
+    public void logOne(HttpServletRequest request, HttpServletResponse response, @PathVariable Integer purchaseid) throws IOException {
 
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(dataservice);
+        response.getWriter().print(dataPurchaseservice.get(purchaseid));
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -190,7 +185,7 @@ public class ServiceController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         // set Entity for request sent
-        HttpEntity<String> entity = new HttpEntity<>(dataservice.toString(), headers);
+        HttpEntity<String> entity = new HttpEntity<>(dataPurchaseservice.toString(), headers);
         // get response request sent
         ResponseEntity<String> respon = restTemplate.postForEntity(url, entity, String.class);
 
@@ -222,12 +217,12 @@ public class ServiceController {
         data = builder.toString();
         // convert string to jsonobject
         JSONObject Body = new JSONObject(data);
-        List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice(Body.getJSONObject("purchaseidid").toString(), Body.getJSONObject("cartid").toString(), Body.getJSONObject("productid").toString(), Body.getJSONObject("paymentAccountid").toString(), Body.getJSONObject("paymentLogid").toString(), Body.getJSONObject("userProfileid").toString(), Double.parseDouble(Body.getJSONObject("result").toString()), Body.getJSONObject("address").toString())));
+        List<Dataservice> dataPurchaseservice = new ArrayList<>(Arrays.asList(new Dataservice(Body.getJSONObject("purchaseidid").toString(), Body.getJSONObject("cartid").toString(), Body.getJSONObject("productid").toString(), Body.getJSONObject("paymentAccountid").toString(), Body.getJSONObject("paymentLogid").toString(), Body.getJSONObject("userProfileid").toString(), Double.parseDouble(Body.getJSONObject("result").toString()), Body.getJSONObject("address").toString())));
 
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(dataservice);
+        response.getWriter().print(dataPurchaseservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -242,7 +237,7 @@ public class ServiceController {
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(dataservice);
+        response.getWriter().print(dataPurchaseservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
