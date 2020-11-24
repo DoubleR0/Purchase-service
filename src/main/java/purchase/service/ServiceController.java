@@ -119,10 +119,10 @@ public class ServiceController {
         // JSONObject shipingObject = new JSONObject(dataservice);
 
         // request data from payment
-        url = "https://sop-picnic.azurewebsites.net/profile/" + orderObject.get("user_id");
+        url = "https://sop-picnic.azurewebsites.net/payment";
         restTemplate = new RestTemplate();
-        dataservice = restTemplate.getForObject(url, String.class);
-        JSONObject paymentObject = new JSONObject(dataservice);
+        // dataservice = restTemplate.getForObject(url, String.class);
+        // JSONObject paymentObject = new JSONObject(dataservice);
 
         // // request data from user
         url = "https://sop-picnic.azurewebsites.net/profile/" + orderObject.get("user_id");
@@ -143,44 +143,33 @@ public class ServiceController {
         System.out.println(orderObject.get("product").getClass());
         model.addAttribute("address", userObject.get("address"));
 
-        url = "http://stock.phwt.me/product/3";
+        JSONArray jsonArray = new JSONArray(orderObject.get("product").toString());
+        JSONArray jsonPersonData = jsonArray;
+        // System.out.print(jsonPersonData);
+        Integer id = 0;
+        for (int i=0; i<jsonPersonData.length(); i++) {
+            JSONObject item = jsonPersonData.getJSONObject(i);
+            // System.out.println(item);
+            id = (Integer) item.get("id");
+            model.addAttribute("amount", item.get("amount"));
+            model.addAttribute("total", item.get("total"));
+            // String name = item.getString("name");
+            // String surname = item.getString("surname");
+        }
+
+        url = "http://stock.phwt.me/product/" + id;
         restTemplate = new RestTemplate();
         dataservice = restTemplate.getForObject(url, String.class);
         JSONObject productObject1 = new JSONObject(dataservice);
 
         model.addAttribute("productObject1", productObject1.get("name"));
         model.addAttribute("price1", productObject1.get("price"));
-        model.addAttribute("amount1", 2);
-        model.addAttribute("total1", productObject1.get("price"));
 
         url = "https://mhee-promotion.herokuapp.com/promotions";
         restTemplate = new RestTemplate();
         dataservice = restTemplate.getForObject(url, String.class);
         JSONObject promotionsObject = new JSONObject(dataservice);
         model.addAttribute("promotions", "WTSHIRT5050");
-
-        // url = "http://stock.phwt.me/product/4";
-        // restTemplate = new RestTemplate();
-        // dataservice = restTemplate.getForObject(url, String.class);
-        // JSONObject productObject2 = new JSONObject(dataservice);
-        // model.addAttribute("productObject2", productObject2.get("name"));
-        // model.addAttribute("price2", productObject2.get("price"));
-        // model.addAttribute("amount2", 1);
-        // model.addAttribute("total2", productObject1.get("price"));
-        // System.out.println(productObject1.get("price").toString());
-
-        // model.addAttribute("totally",
-        // productObject1.get("price")+productObject2.get("price"));
-
-        // JSONArray jsonArray = new JSONArray(orderObject.get("product"));
-        // JSONArray jsonPersonData = jsonArray.getJSONArray(1);
-        // for (int i=0; i<jsonPersonData.length(); i++) {
-        // JSONObject item = jsonPersonData.getJSONObject(i);
-        // String name = item.getString("name");
-        // String surname = item.getString("surname");
-        // }
-        // for (JSONObject ob : orderObject.get("product")) {
-        // }
         response.setStatus(HttpServletResponse.SC_OK);
         return "first";
     }

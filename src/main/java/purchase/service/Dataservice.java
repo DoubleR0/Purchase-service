@@ -31,11 +31,11 @@ public class Dataservice {
     }
 
     public String getPurchaseidid() {
-        return purchaseidid;
+        return purchaseid;
     }
 
     public void setPurchaseidid(String purchaseidid) {
-        this.purchaseidid = purchaseidid;
+        this.purchaseid = purchaseidid;
     }
 
     public String getCartid() {
