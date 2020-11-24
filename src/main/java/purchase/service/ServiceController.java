@@ -33,22 +33,21 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class ServiceController {
-    // List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("LIP001", "XOXO Lipstick", 1),
-    //         new Dataservice("BRO001", "NYX Brush On Palette", 1)));
+    List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice(1, 3, 1, 166929, 1000232, "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
 
     // public void deleteData(String id) {
-    //     for (int i = 0; i < dataservice.size(); i++) {
-    //         if (dataservice.get(i).getId().equals(id)) {
-    //             dataservice.remove(i);
-    //             break;
-    //         }
-    //     }
+    // for (int i = 0; i < dataservice.size(); i++) {
+    // if (dataservice.get(i).getId().equals(id)) {
+    // dataservice.remove(i);
+    // break;
+    // }
+    // }
     // }
 
     // @RequestMapping(value = "/Data/{id}", method = RequestMethod.DELETE)
     // public String deleteDataservice(@PathVariable String id) {
-    //     deleteData(id);
-    //     return "Delete0";
+    // deleteData(id);
+    // return "Delete0";
     // }
 
     // PurchaseService
@@ -56,8 +55,9 @@ public class ServiceController {
     // set method and parameter
     @RequestMapping(value = "/confirmordered/{purchaseid}", method = RequestMethod.GET)
     @ResponseBody
-    public void confirmordered(HttpServletRequest request, HttpServletResponse response, @PathVariable String purchaseid) throws IOException {
-            // request sent to payment service
+    public void confirmordered(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable String purchaseid) throws IOException {
+        // request sent to payment service
         String obj = "{\"order\":\"154811629\"}";
         final String url = "http://localhost:8080/payment";
         RestTemplate restTemplate = new RestTemplate();
@@ -88,7 +88,8 @@ public class ServiceController {
     // set method and path
     @RequestMapping(value = "/detailorder/{orderid}", method = RequestMethod.GET)
     // @ResponseBody
-    public String detailorder(HttpServletRequest request, HttpServletResponse response, Model model, @PathVariable String orderid) throws IOException {
+    public String detailorder(HttpServletRequest request, HttpServletResponse response, Model model,
+            @PathVariable String orderid) throws IOException {
         String url = "https://order.tungmai.me/api/order/" + orderid;
         RestTemplate restTemplate = new RestTemplate();
         String dataservice = restTemplate.getForObject(url, String.class);
@@ -101,7 +102,7 @@ public class ServiceController {
         // BufferedReader reader = request.getReader();
         // String line;
         // while ((line = reader.readLine()) != null) {
-        //     builder.append(line);
+        // builder.append(line);
         // }
         // data = builder.toString();
         // // convert string to jsonobject
@@ -168,15 +169,16 @@ public class ServiceController {
         // model.addAttribute("total2", productObject1.get("price"));
         // System.out.println(productObject1.get("price").toString());
 
-        // model.addAttribute("totally", productObject1.get("price")+productObject2.get("price"));
+        // model.addAttribute("totally",
+        // productObject1.get("price")+productObject2.get("price"));
 
-//         JSONArray jsonArray = new JSONArray(orderObject.get("product"));
-//         JSONArray jsonPersonData = jsonArray.getJSONArray(1);
-//         for (int i=0; i<jsonPersonData.length(); i++) {
-//     JSONObject item = jsonPersonData.getJSONObject(i);
-//     String name = item.getString("name");
-//     String surname = item.getString("surname");
-// }
+        // JSONArray jsonArray = new JSONArray(orderObject.get("product"));
+        // JSONArray jsonPersonData = jsonArray.getJSONArray(1);
+        // for (int i=0; i<jsonPersonData.length(); i++) {
+        // JSONObject item = jsonPersonData.getJSONObject(i);
+        // String name = item.getString("name");
+        // String surname = item.getString("surname");
+        // }
         // for (JSONObject ob : orderObject.get("product")) {
         // }
         response.setStatus(HttpServletResponse.SC_OK);
@@ -215,7 +217,8 @@ public class ServiceController {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    // update payment from PaymentService and save to Dataservice, send data to ShipingService and send to OrderService to save history order
+    // update payment from PaymentService and save to Dataservice, send data to
+    // ShipingService and send to OrderService to save history order
     // set method and parameter
     @RequestMapping(value = "/updatepaymentlog/{purchaseid}", method = RequestMethod.PATCH)
     @ResponseBody
