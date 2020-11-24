@@ -2,7 +2,10 @@ package purchase.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,22 +27,16 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class ServiceController {
-    List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice(1, 3, 1, 166929, 1000232, "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
+    List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("1", "3", "1", "166929", "1000232", "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
 
-    // public void deleteData(String id) {
-    // for (int i = 0; i < dataservice.size(); i++) {
-    // if (dataservice.get(i).getId().equals(id)) {
-    // dataservice.remove(i);
-    // break;
-    // }
-    // }
-    // }
-
-    // @RequestMapping(value = "/Data/{id}", method = RequestMethod.DELETE)
-    // public String deleteDataservice(@PathVariable String id) {
-    // deleteData(id);
-    // return "Delete0";
-    // }
+    public void deleteData(String id) {
+    for (int i = 0; i < dataservice.size(); i++) {
+    if (dataservice.get(i).getPurchaseidid().equals(id)) {
+    dataservice.remove(i);
+    break;
+    }
+    }
+    }
 
     // PurchaseService
     // send cost confirmed to Payment and waiting for response
@@ -49,7 +46,6 @@ public class ServiceController {
     public void confirmordered(HttpServletRequest request, HttpServletResponse response,
             @PathVariable String purchaseid) throws IOException {
         // request sent to payment service
-        String obj = "{\"order\":\"154811629\"}";
         final String url = "http://localhost:8080/payment";
         RestTemplate restTemplate = new RestTemplate();
         // set header for request sent
@@ -57,7 +53,7 @@ public class ServiceController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         // set Entity for request sent
-        HttpEntity<String> entity = new HttpEntity<>(obj, headers);
+        HttpEntity<String> entity = new HttpEntity<>(dataservice.toString(), headers);
         // get response request sent
         ResponseEntity<String> respon = restTemplate.postForEntity(url, entity, String.class);
 
@@ -85,35 +81,10 @@ public class ServiceController {
         RestTemplate restTemplate = new RestTemplate();
         String dataservice = restTemplate.getForObject(url, String.class);
         JSONObject orderObject = new JSONObject(dataservice);
-        // get token from header request
-        // String authorization = request.getHeader("authorization");
-        // // get Jsonobject from body request
-        // String data = "";
-        // StringBuilder builder = new StringBuilder();
-        // BufferedReader reader = request.getReader();
-        // String line;
-        // while ((line = reader.readLine()) != null) {
-        // builder.append(line);
-        // }
-        // data = builder.toString();
-        // // convert string to jsonobject
-        // JSONObject Body = new JSONObject(data);
-
-        // System.out.println("Body ====== " + Body);
-        // System.out.println("authorization ========= " + authorization);
-        // System.out.println(request);
-
-        // request data from shiping
-        // String url = "http://localhost:8080/shiping";
-        // RestTemplate restTemplate = new RestTemplate();
-        // String dataservice = restTemplate.getForObject(url, String.class);
-        // JSONObject shipingObject = new JSONObject(dataservice);
 
         // request data from payment
         url = "https://sop-picnic.azurewebsites.net/payment";
         restTemplate = new RestTemplate();
-        // dataservice = restTemplate.getForObject(url, String.class);
-        // JSONObject paymentObject = new JSONObject(dataservice);
 
         // // request data from user
         url = "https://sop-picnic.azurewebsites.net/profile/" + orderObject.get("user_id");
@@ -123,13 +94,6 @@ public class ServiceController {
 
         // set responses type
         response.setContentType("application/json");
-        // set responses data
-        // System.out.println("shipingObject ======== " + shipingObject);
-        // response.getWriter().println(shipingObject);
-        // response.getWriter().println(paymentObject);
-        // response.getWriter().println(userObject);
-        // response.getWriter().println(orderObject);
-        // response.getWriter().println(orderObject.get("product"));
         // set responses code
         System.out.println(orderObject.get("product").getClass());
         model.addAttribute("address", userObject.get("address"));
@@ -192,7 +156,7 @@ public class ServiceController {
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(response);
+        response.getWriter().print(dataservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -218,15 +182,14 @@ public class ServiceController {
         JSONObject Body = new JSONObject(data);
 
         // request sent to shiping service
-        String obj = "{\"order\":\"154811629\"}";
-        final String url = "http://localhost:8080/shiping";
+        final String url = "http://shipping-sop.herokuapp.com/shipping/";
         RestTemplate restTemplate = new RestTemplate();
         // set header for request sent
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         // set Entity for request sent
-        HttpEntity<String> entity = new HttpEntity<>(obj, headers);
+        HttpEntity<String> entity = new HttpEntity<>(dataservice.toString(), headers);
         // get response request sent
         ResponseEntity<String> respon = restTemplate.postForEntity(url, entity, String.class);
 
@@ -248,12 +211,23 @@ public class ServiceController {
     @ResponseBody
     public void addlog(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        // empty
+        String data = "";
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            builder.append(line);
+        }
+        data = builder.toString();
+        // convert string to jsonobject
+        JSONObject Body = new JSONObject(data);
+
+        List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("1", "3", "1", "166929", "1000232", "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
 
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(response);
+        response.getWriter().print(dataservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -261,14 +235,14 @@ public class ServiceController {
     // delete Dataservice from log when ordered finished or maintenance
     @RequestMapping(value = "/deletelog/{purchaseid}", method = RequestMethod.GET)
     @ResponseBody
-    public void deletelog(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void deletelog(HttpServletRequest request, HttpServletResponse response, @PathVariable String purchaseid) throws IOException {
 
-        // empty
+        deleteData(purchaseid);
 
         // set responses type
         response.setContentType("application/json");
         // set responses data
-        response.getWriter().print(response);
+        response.getWriter().print(dataservice);
         // set responses code
         response.setStatus(HttpServletResponse.SC_OK);
     }

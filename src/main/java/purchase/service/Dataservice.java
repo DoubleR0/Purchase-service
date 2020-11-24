@@ -1,17 +1,16 @@
 package purchase.service;
 
 public class Dataservice {
-    private int purchaseidid;
-    private int cartid;
-    private int productid;
-    private int paymentAccountid;
-    private int paymentLogid;
+    private String purchaseidid;
+    private String cartid;
+    private String productid;
+    private String paymentAccountid;
+    private String paymentLogid;
     private String userProfileid;
     private double result;
     private String address;
-    public Dataservice(int purchaseidid, int cartid, int productid,
-    int paymentAccountid, int paymentLogid,
-             String userProfileid, double result, String address) {
+    public Dataservice(String purchaseidid, String cartid, String productid,
+    String paymentAccountid, String paymentLogid, String userProfileid, double result, String address) {
         this.purchaseidid = purchaseidid;
         this.cartid = cartid;
         this.productid = productid;
@@ -22,20 +21,12 @@ public class Dataservice {
         this.address = address;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getPurchaseidid() {
-        return purchaseid;
+        return purchaseidid;
     }
 
     public void setPurchaseidid(String purchaseidid) {
-        this.purchaseid = purchaseidid;
+        this.purchaseidid = purchaseidid;
     }
 
     public String getCartid() {
@@ -78,12 +69,12 @@ public class Dataservice {
         this.userProfileid = userProfileid;
     }
 
-    public String getResultid() {
-        return resultid;
+    public double getResultid() {
+        return result;
     }
 
-    public void setResultid(String resultid) {
-        this.resultid = resultid;
+    public void setResultid(double resultid) {
+        this.result = resultid;
     }
 
     public String getAddress() {
