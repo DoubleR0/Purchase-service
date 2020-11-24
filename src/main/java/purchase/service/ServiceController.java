@@ -2,32 +2,23 @@ package purchase.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -162,13 +153,13 @@ public class ServiceController {
         JSONObject productObject1 = new JSONObject(dataservice);
 
         model.addAttribute("productObject1", productObject1.get("name"));
-        model.addAttribute("price1", productObject1.get("price"));
+        model.addAttribute("price1", orderObject.get(""));
 
         url = "https://mhee-promotion.herokuapp.com/promotions";
         restTemplate = new RestTemplate();
         dataservice = restTemplate.getForObject(url, String.class);
         JSONObject promotionsObject = new JSONObject(dataservice);
-        model.addAttribute("promotions", "WTSHIRT5050");
+        model.addAttribute("promotions", userObject.get("promotion"));
         response.setStatus(HttpServletResponse.SC_OK);
         return "first";
     }
