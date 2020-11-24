@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -209,7 +210,7 @@ public class ServiceController {
     // add Dataservice to log for emergency or maintenance
     @RequestMapping(value = "/addlog/{purchaseid}", method = RequestMethod.PUT)
     @ResponseBody
-    public void addlog(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void addlog(HttpServletRequest request, HttpServletResponse response) throws IOException, NumberFormatException, NullPointerException {
 
         String data = "";
         StringBuilder builder = new StringBuilder();
@@ -221,8 +222,7 @@ public class ServiceController {
         data = builder.toString();
         // convert string to jsonobject
         JSONObject Body = new JSONObject(data);
-
-        List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice("1", "3", "1", "166929", "1000232", "pSFcMeuEtuY8PyVUdkYDtcCMCSi1", 9841.15, "3441 Coleman Avenue Escondido, CA 9202")));
+        List<Dataservice> dataservice = new ArrayList<>(Arrays.asList(new Dataservice(Body.getJSONObject("purchaseidid").toString(), Body.getJSONObject("cartid").toString(), Body.getJSONObject("productid").toString(), Body.getJSONObject("paymentAccountid").toString(), Body.getJSONObject("paymentLogid").toString(), Body.getJSONObject("userProfileid").toString(), Double.parseDouble(Body.getJSONObject("result").toString()), Body.getJSONObject("address").toString())));
 
         // set responses type
         response.setContentType("application/json");
